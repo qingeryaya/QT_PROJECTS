@@ -1,1 +1,1 @@
-init msg
+notebook 基于QT的记事本

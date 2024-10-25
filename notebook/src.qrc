@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/baseline_file_open_black_18dp.png</file>
+        <file>icon/baseline_toggle_off_black_18dp 2.png</file>
+        <file>icon/outline_toggle_off_black_18dp 2.png</file>
+        <file>icon/outline_toggle_off_black_18dp.png</file>
+        <file>icon/sharp_star_purple500_black_24dp.png</file>
+        <file>icon/sharp_star_purple500_black_36dp 2.png</file>
+        <file>icon/twotone_star_purple500_black_18dp 2.png</file>
+        <file>icon/twotone_star_purple500_black_24dp 2.png</file>
+        <file>icon/twotone_toggle_on_black_36dp 2.png</file>
+    </qresource>
+</RCC>
