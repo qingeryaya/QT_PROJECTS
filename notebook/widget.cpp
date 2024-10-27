@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QDebug>
+#include <QMessageBox>
 
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
@@ -36,41 +37,61 @@ void Widget::on_btnOpen_clicked()
         if(!file.isOpen())
         {
             file.setFileName(fileName);
-            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            file.open(QIODevice::ReadWrite | QIODevice::Text);
         }
         else
             file.seek(0);
 
         QTextStream out(&file);
         out.setCodec(ui->comboBox->currentText().toStdString().c_str());
-//        out.setCodec("UTF-8");
         while (!out.atEnd()) {
             ui->textEdit->append(out.readLine());
         }
-//        file.close();
     }
 }
 
 void Widget::on_btnSave_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("save file"),"./untitled.txt",tr("Text (*.txt)"));
-    file.setFileName(fileName);
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    if(!file.isOpen())
+    {
+        QString fileName = QFileDialog::getSaveFileName(this,tr("save file"),"./untitled.txt",tr("Text (*.txt)"));
+        file.setFileName(fileName);
+        file.open(QIODevice::ReadWrite | QIODevice::Text );
+    }
+    file.resize(0);
     QTextStream toFile(&file);
-//    toFile.setCodec("UTF-8");
     toFile.setCodec(ui->comboBox->currentText().toStdString().c_str());
-
     QString qStringToNewFile = ui->textEdit->toPlainText();
     toFile<<qStringToNewFile;
-//    file.close();
 }
 
 void Widget::on_btnClose_clicked()
 {
-    if(file.isOpen())
-    {
+    QMessageBox msgBox;
+    msgBox.setText("The document has been modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+    int ret = msgBox.exec();
+
+    switch (ret) {
+    case QMessageBox::Save:
+        qDebug()<<"save！！";
+        on_btnSave_clicked();
         file.close();
+        break;
+    case QMessageBox::Discard:
         ui->textEdit->clear();
+        if(file.isOpen())
+        {
+            file.close();
+        }
+        break;
+    case QMessageBox::Cancel:
+        break;
+    default:
+        // should never be reached
+        break;
     }
 }
 
@@ -81,7 +102,7 @@ void Widget::currentIndexChanged(int index)
     {
         file.seek(0);
         QTextStream qStream(&file);
-        qStream.setCodec(ui->textEdit->toPlainText().toStdString().c_str());
+        qStream.setCodec(ui->comboBox->currentText().toStdString().c_str());
         while (!qStream.atEnd()) {
             ui->textEdit->append(qStream.readLine());
         }
