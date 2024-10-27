@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QShortcut>
 
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
@@ -14,6 +15,17 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     ui->widgetBottom->setLayout(ui->horizontalLayout);
     connect(ui->comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
     connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(onCursorPositionChanged()));
+
+    // 快捷键
+    QShortcut *shortcutSave = new QShortcut(QKeySequence(tr("Ctrl+S", "File|Save")),this);
+    QShortcut *shortcutOpen = new QShortcut(QKeySequence(tr("Ctrl+O", "File|Open")),this);
+
+    connect(shortcutOpen, &QShortcut::activated,[=](){
+       on_btnOpen_clicked();
+    });
+    connect(shortcutSave, &QShortcut::activated,[=](){
+       on_btnSave_clicked();
+    });
 }
 
 Widget::~Widget()
