@@ -123,7 +123,7 @@ QPushButton:pressed {border-image: url(:/icon/outline_toggle_off_black_18dp.png)
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="MyTextEdit" name="textEdit">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -221,6 +221,13 @@ QPushButton:pressed {border-image: url(:/icon/outline_toggle_off_black_18dp.png)
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>mytextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="src.qrc"/>
  </resources>

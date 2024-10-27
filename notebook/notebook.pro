@@ -19,9 +19,11 @@ CONFIG += sdk_no_version_check
 
 SOURCES += \
     main.cpp \
+    mytextedit.cpp \
     widget.cpp
 
 HEADERS += \
+    mytextedit.h \
     widget.h
 
 FORMS += \

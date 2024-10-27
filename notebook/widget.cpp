@@ -19,12 +19,28 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     // 快捷键
     QShortcut *shortcutSave = new QShortcut(QKeySequence(tr("Ctrl+S", "File|Save")),this);
     QShortcut *shortcutOpen = new QShortcut(QKeySequence(tr("Ctrl+O", "File|Open")),this);
+    QShortcut *shortcutFontSizeP = new QShortcut(QKeySequence(tr("Ctrl+Shift+=", "File|Open")),this);
+    QShortcut *shortcutFontSizeM = new QShortcut(QKeySequence(tr("Ctrl+Shift+-", "File|Open")),this);
 
     connect(shortcutOpen, &QShortcut::activated,[=](){
-       on_btnOpen_clicked();
+        on_btnOpen_clicked();
     });
     connect(shortcutSave, &QShortcut::activated,[=](){
-       on_btnSave_clicked();
+        on_btnSave_clicked();
+    });
+    connect(shortcutFontSizeP, &QShortcut::activated,[=](){
+        QFont font =  ui->textEdit->font();
+        int fontSize = font.pointSize();
+        if (fontSize==-1) return;
+        font.setPointSize(++fontSize);
+        ui->textEdit->setFont(font);
+    });
+    connect(shortcutFontSizeM, &QShortcut::activated,[=](){
+        QFont font =  ui->textEdit->font();
+        int fontSize = font.pointSize();
+        if (fontSize==-1) return;
+        font.setPointSize(--fontSize);
+        ui->textEdit->setFont(font);
     });
 }
 
